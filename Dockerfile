@@ -20,18 +20,17 @@ RUN echo 'export JAVA_HOME=/usr/lib/jvm/java-8-oracle' >> /etc/profile && echo '
 # Define working directory.
 #RUN mkdir /java
 ADD java /java
-WORKDIR /java
 RUN ln -s /java ~/
 RUN ln -s /java /home/land007
-
 RUN javac Main.java
-
 RUN mv /java /java_
+WORKDIR /java
 VOLUME ["/java"]
 ADD check.sh /
 RUN sed -i 's/\r$//' /check.sh
 RUN chmod a+x /check.sh
 
 CMD /check.sh /java ; /etc/init.d/ssh start ; bash
+EXPOSE 8080
 
 #docker stop ubuntu-java ; docker rm ubuntu-java ; docker run -it --privileged --name ubuntu-java land007/ubuntu-java:latest
